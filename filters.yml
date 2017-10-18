@@ -1,0 +1,50 @@
+features:
+  - tail-call-optimization
+  - generators
+  - default-parameters
+  - Function.prototype.toString
+  - SharedArrayBuffer
+  - atomics
+  - cross-realm
+  - u180e
+  - Symbol.isConcatSpreadable
+esid:
+  - pending
+es5id:
+  - 7.8.5_A1.4_T2
+  - 7.8.5_A2.4_T2
+  - 7.8.5_A2.1_T2
+  - 7.8.5_A1.1_T2
+  - 15.1.2.2_A8
+  - 15.1.2.3_A6
+  - 7.4_A5
+  - 7.4_A6
+  - 15.10.2.12_A3_T1
+  - 15.10.2.12_A4_T1
+  - 15.10.2.12_A5_T1
+  - 15.10.2.12_A6_T1
+es6id:
+  - 22.1.3.1_3
+flags:
+  - module
+  - async
+location:
+  - language/directive-prologue/
+  - intl402/
+  - built-ins/Function/prototype/toString/
+  - built-ins/SharedArrayBuffer/
+  - built-ins/Atomics/
+  - annexB/
+  - language/statements/with/
+  - detached-buffer-after-toindex-byteoffset.js
+  - built-ins/ArrayIteratorPrototype/next/detach-typedarray-in-progress.js
+  - built-ins/RegExp/S15.10.2.12_A1_T1.js
+  - built-ins/RegExp/S15.10.2.12_A2_T1.js
+  - built-ins/RegExp/prototype/Symbol.search/lastindex-no-restore.js
+  - built-ins/RegExp/prototype/exec/failure-lastindex-no-access.js
+  - built-ins/RegExp/prototype/exec/success-lastindex-no-access.js
+  - built-ins/RegExp/prototype/Symbol.match/builtin-success-u-return-val-groups.js
+  - built-ins/decodeURI
+  - built-ins/encodeURI
+  - built-ins/decodeURIComponent
+  - built-ins/encodeURIComponent

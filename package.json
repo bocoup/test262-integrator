@@ -1,0 +1,16 @@
+{
+  "name": "prepack262",
+  "version": "1.0.0",
+  "description": "run test262 on prepack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^3.10.0",
+    "prepack": "^0.2.9",
+    "test262-stream": "git://github.com/bocoup/test262-stream.git#v1"
+  }
+}
