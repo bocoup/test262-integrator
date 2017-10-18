@@ -8,7 +8,7 @@ const skipList = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './filters.y
 let count = 0;
 function execute(testObject) {
   count++;
-  // TODO: execute the test for real
+  // TODO: load host and execute the test for real
   return Object.assign({}, resultInterface, {
     pass: true, // if pass
     // message: '', // if any
