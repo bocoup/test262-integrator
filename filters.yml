@@ -30,7 +30,8 @@ flags:
   - async
 paths:
   - language/directive-prologue/
-  - intl402/
+  - harness
+  - intl402
   - built-ins/Function/prototype/toString/
   - built-ins/SharedArrayBuffer/
   - built-ins/Atomics/

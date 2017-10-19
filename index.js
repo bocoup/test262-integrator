@@ -7,23 +7,33 @@ const Prepack = require('prepack');
 const testDir = path.join(__dirname, '..', 'test262');
 const skipList = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './filters.yml'), 'utf8'));
 
+var prepend = `
+function print(arg) {
+  return console.log(arg);
+}
+
+var $262 = {
+  destroy: function() {}
+};
+`;
+
 function execute(testObject) {
   // TODO: load host and execute the test for real
 
   let idk;
+  let pass = false;
+  let message = '';
 
   try {
-    console.log(testObject.contents);
-    console.log('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
-    idk = Prepack.prepack(testObject.contents);
-    console.log('a', idk.code);
+    idk = Prepack.prepack(prepend + testObject.contents);
+    pass = true;
   } catch(e) {
     //console.log(e.message);
   }
 
   return Object.assign({}, resultInterface, {
-    pass: true, // if pass
-    // message: '', // if any
+    pass, // if pass
+    message, // if any
   })
 }
 
