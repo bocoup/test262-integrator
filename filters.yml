@@ -28,7 +28,7 @@ es6id:
 flags:
   - module
   - async
-location:
+paths:
   - language/directive-prologue/
   - intl402/
   - built-ins/Function/prototype/toString/

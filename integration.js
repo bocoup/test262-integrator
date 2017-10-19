@@ -21,8 +21,8 @@ async function check(testObject, filters, execute) {
 }
 
 function filter({file, attrs}, filters) {
-  // Filter tests by location
-  if (filters.location.some(p => file.includes(p))) {
+  // Filter tests by path location
+  if (filters.paths.some(p => file.includes(p))) {
     return false;
   }
 
