@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.2.0",
     "js-yaml": "^3.10.0",
     "prepack": "^0.2.9",
     "test262-stream": "git://github.com/bocoup/test262-stream.git#v1"

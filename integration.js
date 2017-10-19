@@ -1,6 +1,7 @@
 const path = require('path');
-const testDir = path.join(__dirname, '..', 'test262');
 const TestStream = require('test262-stream');
+const Reporter = require('./report.js');
+const report = new Reporter();
 
 async function check(testObject, filters, execute) {
   testObject.file = path.relative('test', testObject.file);
@@ -13,6 +14,8 @@ async function check(testObject, filters, execute) {
   } else {
     testObject.skip = true;
   }
+
+  report.log(testObject);
 
   return testObject;
 }
@@ -43,12 +46,12 @@ function filter({file, attrs}, filters) {
   return true;
 }
 
-async function run(filters, execute) {
+async function run({ skipList, execute, testDir }) {
   const results = [];
   const stream = new TestStream(testDir);
 
   stream.on('data', async testObject => {
-    results.push(await check(testObject, filters, execute));
+    results.push(await check(testObject, skipList, execute));
   });
 
   return new Promise((resolve, reject) => {

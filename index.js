@@ -3,11 +3,11 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const { run, resultInterface } = require('./integration.js');
 
+const testDir = path.join(__dirname, '..', 'test262');
 const skipList = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './filters.yml'), 'utf8'));
 
-let count = 0;
+let lastDirName = '';
 function execute(testObject) {
-  count++;
   // TODO: load host and execute the test for real
   return Object.assign({}, resultInterface, {
     pass: true, // if pass
@@ -15,6 +15,10 @@ function execute(testObject) {
   })
 }
 
-run(skipList, execute).then(results => {
-  console.log(`Done! Ran ${count} tests out of ${results.length}`);
+run({
+  skipList,
+  execute,
+  testDir
+}).then(results => {
+  console.log(`Done!`);
 });
