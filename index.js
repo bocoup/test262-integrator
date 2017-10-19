@@ -34,7 +34,7 @@ function execute(testObject) {
   return Object.assign({}, resultInterface, {
     pass, // if pass
     message, // if any
-  })
+  });
 }
 
 run({
