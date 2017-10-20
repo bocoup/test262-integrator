@@ -1,41 +1,40 @@
 const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
-const { run, resultInterface } = require('../index.js');
+const { run } = require('../index.js');
 const { createAgent } = require('eshost');
 
 const testDir = path.join(__dirname, '../..', 'test262');
-const skipList = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './filters.yml'), 'utf8'));
+const filters = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './filters.yml'), 'utf8'));
 
-createAgent('node', {
-  hostPath: '/usr/local/bin/node' ,
-  shortName: '$262',
-});
+let host;
 
-function execute(test) {
+async function execute({contents, file}) {
   let pass = false;
   let message = '';
 
-  try {
-    const { realm } = createRealm(10000);
-    const result = realm.$GlobalEnv.execute(test.contents);
+  const result = await host.evalScript(contents);
 
-    console.log(result);
-    pass = true;
-  } catch(e) {
-    message = e.message;
+  // TODO: is this supposed to be an error?
+  if (result.error) {
+    // ...
   }
-
-  return Object.assign({}, resultInterface, {
-    pass, // if pass
-    message, // if any
-  });
+  return result;
 }
 
-run({
-  skipList,
-  testDir
+Promise.all([
+  createAgent('node', {
+    hostPath: '/usr/local/bin/node' ,
+    shortName: '$262',
+  })
+]).then(([agent]) => {
+  host = agent;
+  return run({
+    filters,
+    testDir,
+    execute,
+    paths: ['test/language/expressions/class']
+  })
 }).then(tests => {
-  // TODO: Report results
-  console.log(`Done! ${tests.length}`);
+  // TODO: categorize folders, etc etc statistics everything
 });
