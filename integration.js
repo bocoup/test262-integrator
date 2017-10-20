@@ -3,15 +3,12 @@ const TestStream = require('test262-stream');
 const Reporter = require('./report.js');
 const report = new Reporter();
 
-async function check(testObject, filters, execute) {
+async function applyFilters(testObject, filters, execute) {
   testObject.file = path.relative('test', testObject.file);
   testObject.skip = false;
   testObject.result = {};
 
-  if (filter(testObject, filters)) {
-    // Ready to execute
-    testObject.result = execute(testObject);
-  } else {
+  if (!filter(testObject, filters)) {
     testObject.skip = true;
   }
 
@@ -46,12 +43,14 @@ function filter({file, attrs}, filters) {
   return true;
 }
 
-async function run({ skipList, execute, testDir }) {
+async function run({ skipList, testDir }) {
   const results = [];
-  const stream = new TestStream(testDir);
+  const stream = new TestStream(testDir, {
+    paths: ["test/built-ins/Array"]
+  });
 
   stream.on('data', async testObject => {
-    results.push(await check(testObject, skipList, execute));
+    results.push(await applyFilters(testObject, skipList));
   });
 
   return new Promise((resolve, reject) => {

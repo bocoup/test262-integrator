@@ -49,3 +49,7 @@ paths:
   - built-ins/encodeURI
   - built-ins/decodeURIComponent
   - built-ins/encodeURIComponent
+  - built-ins/Array/S15.4.5.2_A1_T1.js
+  - built-ins/Array/S15.4.5.2_A1_T1.js
+  - built-ins/Array/S15.4_A1
+  - built-ins/Array/length/S15.4.5.2_A3
