@@ -7,20 +7,6 @@ const { createAgent } = require('eshost');
 const testDir = path.join(__dirname, '../..', 'test262');
 const filters = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './filters.yml'), 'utf8'));
 
-let host;
-
-async function execute({contents, file}) {
-  let pass = false;
-  let message = '';
-
-  const result = await host.evalScript(contents);
-
-  // TODO: is this supposed to be an error?
-  if (result.error) {
-    // ...
-  }
-  return result;
-}
 
 Promise.all([
   createAgent('node', {
@@ -28,7 +14,18 @@ Promise.all([
     shortName: '$262',
   })
 ]).then(([agent]) => {
-  host = agent;
+  async function execute({contents, file}) {
+    let pass = false;
+    let message = '';
+  
+    const result = await agent.evalScript(contents);
+  
+    // TODO: is this supposed to be an error?
+    if (result.error) {
+      // ...
+    }
+    return result;
+  }
   return run({
     filters,
     testDir,
