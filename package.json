@@ -1,10 +1,10 @@
 {
-  "name": "prepack262",
+  "name": "test262-integrator",
   "version": "1.0.0",
-  "description": "run test262 on prepack",
+  "description": "Soothes attaching Test262 on different projects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test/test.js"
   },
   "author": "",
   "license": "MIT",
