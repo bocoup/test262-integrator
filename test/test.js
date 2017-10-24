@@ -14,11 +14,11 @@ Promise.all([
     shortName: '$262',
   })
 ]).then(([agent]) => {
-  async function execute({contents, file}) {
+  async function execute({contents, attrs: { flags: { async }}, file}) {
     let pass = false;
     let message = '';
   
-    const result = await agent.evalScript(contents);
+    const result = await agent.evalScript(contents, {async});
   
     // TODO: is this supposed to be an error?
     if (result.error) {
