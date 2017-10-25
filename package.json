@@ -12,6 +12,6 @@
     "eshost": "^3.5.1",
     "js-yaml": "^3.10.0",
     "prepack": "^0.2.9",
-    "test262-stream": "git://github.com/bocoup/test262-stream.git#v1"
+    "test262-stream": "git://github.com/bocoup/test262-stream.git"
   }
 }
