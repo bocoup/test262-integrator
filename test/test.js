@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
-const { run } = require('../index.js');
+const Integrator = require('../index.js');
 const { createAgent } = require('eshost');
 
 const testDir = path.join(__dirname, '../..', 'test262');
@@ -26,12 +26,22 @@ Promise.all([
     }
     return result;
   }
-  return run({
+  return Integrator({
     filters,
     testDir,
     execute,
     paths: ['test/language/expressions/class']
   })
 }).then(tests => {
-  // TODO: categorize folders, etc etc statistics everything
+  const total = results.length;
+  const skipped = results.reduce(
+    ((count, {skip}) => skip ? count++ : count),
+    0
+  );
+
+  const err = results.reduce(
+    ((count, {result: {pass}}) => pass ? count : count++),
+    0
+  );
+  return console.log(`Skipped: ${skipped}, Error: ${err}, Total: ${total}\n`);
 });

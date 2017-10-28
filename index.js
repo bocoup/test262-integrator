@@ -4,15 +4,16 @@ const Reporter = require('./report.js');
 const report = new Reporter();
 
 async function check({test, filters, execute}) {
-  test.file = path.relative('test', test.file);
   test.skip = false;
 
   if (filter(test, filters)) {
-    // If execute returns a promise, unwrap it.
-    test.result = await execute(test);
+    try {
+      test = await execute(test);
+    } catch (e) {
+      console.log('check failure', test.file, e);
+    }
   } else {
-    test.result = {};
-    test.skip = true;
+    test = skipTest(test);
   }
 
   report.dot(test);
@@ -57,32 +58,21 @@ async function run({ filters, execute, testDir, paths }) {
   return new Promise((resolve, reject) => {
     stream.on('error', reject);
     stream.on('end', () => {
-      report.final(results);
       resolve(results);
     });
   });
 }
 
-module.exports.run = run;
+function applyResult(test, pass, error) {
+  return Object.assign(test, {
+    result: { pass, error }
+  });
+}
 
-/**
- * Describes the result like in the eshost project:
- * https://github.com/bterlson/eshost#result-object
- *
- * {
- *   stdout: (String) anything printed to stdout (mostly what you print using print).
- *   stderr: (String) anything printed to stderr
- *
- *   // If the script threw an error, it will be an error object. Else, it will be null.
- *   error: {
- *     name: (String) Error name (eg. SyntaxError, TypeError, etc.)
- *     message: (String) Error message
- *     stack: (Array) A list of stack frames.
- *   }
- * }
- */
-module.exports.resultInterface = {
-  stdout: '',
-  stderr: '',
-  error: null
-};
+function skipTest(test) {
+  return Object.assign(test, {skip: true});
+}
+
+module.exports = run;
+module.exports.applyResult = applyResult;
+module.exports.skipTest = skipTest;
