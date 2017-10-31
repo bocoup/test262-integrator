@@ -5,7 +5,7 @@ class Report {
     this.folders = new Set();
   }
 
-  dot({file, skip}) {
+  dot(file) {
     const folder = path.dirname(file);
 
     // Register each new folder with tests

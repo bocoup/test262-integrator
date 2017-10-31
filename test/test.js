@@ -35,12 +35,11 @@ function processResults(results) {
   let skipped = 0;
   let passed = 0;
 
-  results.forEach(test => {
-    const {skip, result = {}} = test;
+  results.forEach(({result: { pass, skip } = {}}) => {
     if (skip) {
       skipped++;
     }
-    if (result.pass) {
+    if (pass) {
       passed++;
     }
   });

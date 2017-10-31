@@ -4,20 +4,21 @@ const Reporter = require('./report.js');
 const report = new Reporter();
 
 async function check({test, filters, execute}) {
-  test.skip = false;
-  let result = null;
+  const {file} = test;
 
   if (filter(test, filters)) {
     try {
       test.result = await execute(test);
-    } catch (e) {
-      console.log('check failure', test.file, e);
+    } catch (err) {
+      console.log('check failure', file, err);
     }
   } else {
-    test.skip = true;
+    test.result = {
+      skip: true
+    };
   }
 
-  report.dot(test);
+  report.dot(file);
 
   return test;
 }
