@@ -23,7 +23,8 @@ createAgent('node', {
     filters,
     testDir,
     execute,
-    paths: ['test/built-ins/ArrayBuffer']
+    verbose: true,
+    // paths: ['test/built-ins/ArrayBuffer']
   });
 }).then(
   processResults,
@@ -60,7 +61,7 @@ function processResults(results) {
       data.passed++;
       passed++;
     } else if (!skip) {
-      console.log(`Failed: ${file}\n${error.name}: ${error.message}\n`);
+      console.log(`Failed: ${file}\n${error && error.message}\n`);
     }
 
     data.total++;

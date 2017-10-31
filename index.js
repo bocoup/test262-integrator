@@ -3,7 +3,7 @@ const TestStream = require('test262-stream');
 const Reporter = require('./report.js');
 const report = new Reporter();
 
-async function check({test, filters, execute}) {
+async function check({test, filters, execute, verbose}) {
   const {file} = test;
 
   if (filter(test, filters)) {
@@ -18,7 +18,7 @@ async function check({test, filters, execute}) {
     };
   }
 
-  report.dot(file);
+  report.dot(file, verbose);
 
   return test;
 }
@@ -49,12 +49,12 @@ function filter({file, attrs}, filters) {
   return true;
 }
 
-async function run({ filters, execute, testDir, paths }) {
+async function run({ filters, execute, testDir, paths, verbose }) {
   const results = [];
   const stream = new TestStream(testDir, { paths });
 
   stream.on('data', async test => {
-    results.push(await check({test, filters, execute}));
+    results.push(await check({test, filters, execute, verbose}));
   });
 
   return new Promise((resolve, reject) => {

@@ -5,12 +5,18 @@ class Report {
     this.folders = new Set();
   }
 
-  dot(file) {
+  dot(file, verbose) {
     const folder = path.dirname(file);
 
-    // Register each new folder with tests
-    if (!this.folders.has(folder)) {
+    if (!verbose && !this.folders.has(folder)) {
+      // Register each new folder with tests
       this.folders.add(folder);
+      this.print('.');
+    } else {
+      if (!this.folders.has(folder)) {
+        this.folders.add(folder);
+        this.print(`\n${folder}\n`);
+      }
       this.print('.');
     }
   }
