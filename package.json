@@ -1,6 +1,6 @@
 {
   "name": "test262-integrator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Soothes attaching Test262 on different projects",
   "main": "index.js",
   "scripts": {
