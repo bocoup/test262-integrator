@@ -23,7 +23,7 @@ createAgent('node', {
     filters,
     testDir,
     execute,
-    paths: ['test/language/expressions/class']
+    paths: ['test/language/expressions']
   })
 }, err => console.error(err)).then(tests => {
   return console.log(`Done`);
