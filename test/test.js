@@ -23,7 +23,7 @@ createAgent('node', {
     filters,
     testDir,
     execute,
-    paths: ['test/built-ins/DataView']
+    paths: ['test/built-ins/ArrayBuffer']
   });
 }).then(
   processResults,
@@ -35,6 +35,8 @@ function processResults(results) {
   let skipped = 0;
   let passed = 0;
   const folders = new Map();
+
+  console.log('\n');
 
   results.forEach(({file, result: { pass, skip, error } = {}}) => {
     const folder = path.dirname(file);
@@ -64,12 +66,27 @@ function processResults(results) {
     data.total++;
   });
 
-  folders.forEach(({skipped, passed, total}, folder) => {
-    console.log(`${folder}: Passed: ${passed}/${total} (${porcentage(passed, total)}%), Skipped: ${skipped} (${porcentage(skipped, total)}%)`);
-  });
-  console.log(`\nPassed: ${passed}/${total} (${porcentage(passed, total)}%), Skipped: ${skipped} (${porcentage(skipped, total)}%)\n`);
+  folders.forEach(printResult);
+
+  // Print total results
+  printResult({ skipped, passed, total }, '\nTotal'); 
 }
 
-function porcentage(x, total) {
-  return (x / total * 100).toFixed(2);
+function printResult({skipped, passed, total}, name) {
+  const subtotal = total - skipped;
+  const failed = subtotal - passed;
+  console.log([
+    `${name}: `,
+    `Ran ${subtotal}/${total} (${percentage(subtotal, total)}), `,
+    `Passed ${passed}/${subtotal} (${percentage(passed, subtotal)}), `,
+    `Failed ${failed}/${subtotal} (${percentage(failed, subtotal)}), `,
+    `Skipped ${skipped}/${total} (${percentage(skipped, total)})`,
+  ].join(''));
+}
+
+function percentage(x, total) {
+  if (total === 0) {
+    return '100%';
+  }
+  return (x / total * 100).toFixed(2) + '%';
 }
