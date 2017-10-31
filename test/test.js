@@ -69,7 +69,7 @@ function processResults(results) {
   folders.forEach(printResult);
 
   // Print total results
-  printResult({ skipped, passed, total }, '\nTotal'); 
+  printResult({ skipped, passed, total }, '\nTotal');
 }
 
 function printResult({skipped, passed, total}, name) {
