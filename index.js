@@ -5,15 +5,16 @@ const report = new Reporter();
 
 async function check({test, filters, execute}) {
   test.skip = false;
+  let result = null;
 
   if (filter(test, filters)) {
     try {
-      test = await execute(test);
+      test.result = await execute(test);
     } catch (e) {
       console.log('check failure', test.file, e);
     }
   } else {
-    test = skipTest(test);
+    test.skip = true;
   }
 
   report.dot(test);
@@ -63,16 +64,5 @@ async function run({ filters, execute, testDir, paths }) {
   });
 }
 
-function applyResult(test, pass, error) {
-  return Object.assign(test, {
-    result: { pass, error }
-  });
-}
-
-function skipTest(test) {
-  return Object.assign(test, {skip: true});
-}
 
 module.exports = run;
-module.exports.applyResult = applyResult;
-module.exports.skipTest = skipTest;

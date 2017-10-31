@@ -11,20 +11,38 @@ createAgent('node', {
   hostPath: '/usr/local/bin/node',
   shortName: '$262',
 }).then(agent => {
-  async function execute({contents, attrs: { flags: { async }}}) {
-    let pass = false;
-    let message = '';
-
-    const result = await agent.evalScript(contents, {async});
-
-    return result;
+  async function execute({contents, negative, attrs: { flags: { async }}}) {
+    const { stdout, error } = await agent.evalScript(contents, {async});
+    return {
+      // TODO: improve
+      pass: stdout.includes('test262/done') && !negative,
+      error
+    };
   }
   return Integrator({
     filters,
     testDir,
     execute,
-    paths: ['test/language/expressions']
-  })
-}, err => console.error(err)).then(tests => {
-  return console.log(`Done`);
-}, err => console.error(err));
+    paths: ['test/built-ins/Array/from']
+  });
+}).then(
+  processResults,
+  err => console.error(`Error running the tests: ${err}`)
+);
+
+function processResults(results) {
+  const total = results.length;
+  let skipped = 0;
+  let passed = 0;
+
+  results.forEach(test => {
+    const {skip, result = {}} = test;
+    if (skip) {
+      skipped++;
+    }
+    if (result.pass) {
+      passed++;
+    }
+  });
+  console.log(`Skipped: ${skipped}, Passed: ${passed}, Total: ${total}\n`);
+}
