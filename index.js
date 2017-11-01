@@ -6,6 +6,8 @@ const report = new Reporter();
 async function check({test, filters, execute, verbose}) {
   const {file} = test;
 
+  report.dot(file, verbose);
+
   if (filter(test, filters)) {
     try {
       test.result = await execute(test);
@@ -17,8 +19,6 @@ async function check({test, filters, execute, verbose}) {
       skip: true
     };
   }
-
-  report.dot(file, verbose);
 
   return test;
 }

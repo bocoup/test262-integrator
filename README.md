@@ -21,6 +21,7 @@ Integrator({
   filters, // (Optional) Object: a list of filters, see 'test/filters.yml' for an example.
   paths: ['test/built-ins/Array/from'] // (Optional) Array of Strings: specifies exclusive paths to
                                        // run the test.
+  verbose: // (Optional) Boolean: toggles a verbose mode for files execution (experimental).
 }).then(results => {
   // `results` is an Array of objects containing information on all the tests object captured from
   // the stream, plus a `result` property with the results captured from execution.
