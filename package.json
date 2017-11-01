@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "test": "node test/test.js",
-    "build": "babel src --out-dir lib",
+    "build": "rm -rf lib && babel src --out-dir lib",
     "prepublishOnly": "npm run build"
   },
   "author": "",
