@@ -8,10 +8,12 @@ class Report {
   dot(file, verbose) {
     const folder = path.dirname(file);
 
-    if (!verbose && !this.folders.has(folder)) {
-      // Register each new folder with tests
-      this.folders.add(folder);
-      this.print('.');
+    if (!verbose) {
+      if (!this.folders.has(folder)) {
+        // Register each new folder with tests
+        this.folders.add(folder);
+        this.print('.');
+      }
     } else {
       if (!this.folders.has(folder)) {
         this.folders.add(folder);
