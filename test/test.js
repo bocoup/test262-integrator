@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
-const Integrator = require('../index.js');
+const Integrator = require('../src/index.js');
 const { createAgent } = require('eshost');
 
 const testDir = path.join(__dirname, '../..', 'test262');

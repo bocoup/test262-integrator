@@ -2,16 +2,34 @@
   "name": "test262-integrator",
   "version": "1.1.2",
   "description": "Soothes attaching Test262 on different projects",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bocoup/test262-integrator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bocoup/test262-integrator/issues"
+  },
+  "files": [
+    "LICENSE",
+    "lib/"
+  ],
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "build": "babel src --out-dir lib",
+    "prepublishOnly": "npm run build"
   },
   "author": "",
   "license": "BSD-3-Clause",
   "dependencies": {
     "eshost": "^3.5.1",
     "js-yaml": "^3.10.0",
-    "prepack": "^0.2.9",
     "test262-stream": "git://github.com/bocoup/test262-stream.git"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.4",
+    "@babel/core": "^7.0.0-beta.4",
+    "@babel/preset-env": "^7.0.0-beta.4",
+    "babel-helper-regex": "^6.26.0"
   }
 }
