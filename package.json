@@ -12,7 +12,8 @@
   },
   "files": [
     "LICENSE",
-    "lib/"
+    "lib/",
+    "index.js"
   ],
   "scripts": {
     "test": "node test/test.js",
