@@ -52,15 +52,20 @@ function filter({file, attrs}, filters) {
 async function run({ filters, execute, testDir, paths, verbose }) {
   const results = [];
   const stream = new TestStream(testDir, { paths });
+  const resolveds = [];
 
-  stream.on('data', async test => {
-    results.push(await check({test, filters, execute, verbose}));
+  stream.on('data', test => {
+    resolveds.push(
+      new Promise(resolve => {
+        check({test, filters, execute, verbose}).then(resolve)
+      })
+    );
   });
 
   return new Promise((resolve, reject) => {
     stream.on('error', reject);
     stream.on('end', () => {
-      resolve(results);
+      Promise.all(resolveds).then(results => resolve(results));
     });
   });
 }
