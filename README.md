@@ -121,5 +121,14 @@ const filters = {
     'built-ins/Atomics/',
     'annexB/',
   ],
+
+  // Filter negative tests by any matching phases and type
+  negative: {
+    type: ['SyntaxError'],
+    phase: [
+      'early',
+      'runtime',
+    ],
+  },
 };
 ```

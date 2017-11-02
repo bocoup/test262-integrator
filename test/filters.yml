@@ -8,6 +8,9 @@ features:
   - cross-realm
   - u180e
   - Symbol.isConcatSpreadable
+  - async-iteration
+  - BigInt
+  - class-fields
 esid:
   - pending
 es5id:
@@ -53,3 +56,9 @@ paths:
   - built-ins/Array/S15.4.5.2_A1_T1.js
   - built-ins/Array/S15.4_A1
   - built-ins/Array/length/S15.4.5.2_A3
+negative:
+  type:
+    - ReferenceError
+  phase:
+    - early
+    - runtime

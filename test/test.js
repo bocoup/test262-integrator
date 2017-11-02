@@ -24,7 +24,7 @@ createAgent('node', {
     testDir,
     execute,
     verbose: true,
-    // paths: ['test/built-ins/ArrayBuffer']
+    paths: ['test/language/statements/class']
   });
 }).then(
   processResults,
@@ -40,7 +40,7 @@ function processResults(results) {
   console.log('\n');
 
   results.forEach(({file, result: { pass, skip, error } = {}}) => {
-    const folder = path.dirname(file);
+    const folder = path.dirname(file).split(path.sep).slice(1, 5).join(path.sep);
     let data;
     if (!folders.has(folder)) {
       data = {

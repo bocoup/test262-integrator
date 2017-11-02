@@ -46,6 +46,19 @@ function filter({file, attrs}, filters) {
     return false;
   }
 
+  // Filter negative tests by their phase.
+  if (attrs.negative && filters.negative) {
+    const { type, phase } = attrs.negative;
+    const { type: types, phase: phases } = filters.negative;
+    if (phases && phases.includes(phase)) {
+      return false;
+    }
+
+    if (types && types.includes(type)) {
+      return false;
+    }
+  }
+
   return true;
 }
 
