@@ -16,38 +16,87 @@ const Integrator = require('test262-integrator');
 
 Integrator({
   testDir, // String: the path where Test262 is located.
-  execute, // (Async/Sync) Function: this function is called for every non-skipped test file, the
-           // return should be a result object.
-  filters, // (Optional) Object: a list of filters, see 'test/filters.yml' for an example.
-  paths: ['test/built-ins/Array/from'] // (Optional) Array of Strings: specifies exclusive paths to
+  execute, // (Async/Sync) Function: this function is called for 
+           // every non-skipped test file, the return should be a 
+           // result object.
+  filters, // (Optional) Object: a list of filters, see 'test/filters.yml' 
+           //  for an example.
+  paths: ['test/built-ins/Array/from'] // (Optional) Array of Strings: 
+                                       // specifies exclusive paths to
                                        // run the test.
-  verbose: // (Optional) Boolean: toggles a verbose mode for files execution (experimental).
+  verbose: // (Optional) Boolean: toggles a verbose mode for files 
+           // execution (experimental).
 }).then(results => {
-  // `results` is an Array of objects containing information on all the tests object captured from
-  // the stream, plus a `result` property with the results captured from execution.
+  // `results` is an Array of objects. Each object contains all 
+  // relevant information for a given test produced by the test stream, with
+  // an additional `result` property which contains the results of
+  // the execution. If a test was skipped via filtering parameters, the
+  // value of result property is { skip: true }.
 
-  // Tests skipped from the filtering list will have a `result = { skip: true }` property.
-
-  // Anything returned from the `execute` method will be stored in the result property.
+  // Anything returned from the `execute` method will be stored in the 
+  // result property.
 }, err => {
   // Any execution error will be available here
 });
 
 // The execute function signature:
 function execute(test) {
-  // `test` has the same properties used in [test262-stream](https://github.com/bocoup/test262-stream#usage)
+  // `test` has the same properties used in test262-stream*
 
   // This function can return a promise for async operations.
 }
 ```
 
+\** [test262-stream](https://github.com/bocoup/test262-stream#usage)
+
 ## Filters
 
-A the `filters` object can be loaded from any configuration file - e.g: a yaml file - and is a list connected to a test metadata or path location.
+The `filters` object can include any properties known to [Test262](https://github.com/tc39/test262/blob/master/INTERPRETING.md#metadata), as well as a special `paths` property whose value is an array of string paths relative to `test262`. All test file paths that match entries in `paths` will be skipped. 
 
-All the listed matching items will be flagged as skipped.
+All tests that are matched by the filter object will have a property `results` whose value is `{ skip: true }`. 
 
-Example:
+Test262-Integrator recommends using a YAML file to store filters, as it's the most readable and maintainable format. 
+
+### Examples
+
+(See [test/filters.yml](test/filters.yml) for an extensive example)
+
+## YAML Filter File 
+
+```
+features:
+  - tail-call-optimization
+  - generators
+  - default-parameters
+```
+
+
+## JSON Filter File 
+
+```
+{
+  "features": [
+    "tail-call-optimization",
+    "generators",
+    "default-parameters"
+  ]
+}
+```
+
+## JavaScript Object Filter
+
+```js
+const filters = {
+  features: [
+    'tail-call-optimization',
+    'generators',
+    'default-parameters'
+  ]
+};
+```
+
+
+## More Extensive Example
 
 ```js
 const filters = {
